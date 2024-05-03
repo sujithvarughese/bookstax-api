@@ -9,6 +9,7 @@ import axios from 'axios'
 
 // router imports
 import authRouter from "./routes/auth-router.js"
+import discoverRouter from './routes/discover-router.js'
 import libraryRouter from "./routes/library-router.js";
 import notebookRouter from "./routes/notebook-router.js"
 
@@ -49,6 +50,7 @@ app.get("/api/v1", (req, res) => {
 })
 
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/discover", discoverRouter)
 app.use("/api/v1/library", libraryRouter) // library functions - getLibrary, add/update/removeBook
 app.use("/api/v1/notebook", notebookRouter) // notebook functions - getNotebook, add/update note
 app.use(notFound);

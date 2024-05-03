@@ -65,4 +65,5 @@ const removeBookFromLibrary = async (req, res) => {
 	res.status(StatusCodes.OK).json({ message: `${book.title} successfully removed from library` });
 };
 
+
 export { getLibrary, addBookToLibrary, getBookDetails, updateBookDetails, removeBookFromLibrary }
