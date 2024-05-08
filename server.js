@@ -5,8 +5,8 @@ import cors from "cors";
 import bodyParser from "body-parser"
 import bodyParserErrorHandler from "express-body-parser-error-handler";
 import mongoose from 'mongoose'
-import axios from 'axios'
-
+import morgan from "morgan";
+import cookieParser from "cookie-parser";
 // router imports
 import authRouter from "./routes/auth-router.js"
 import discoverRouter from './routes/discover-router.js'
@@ -14,8 +14,6 @@ import libraryRouter from "./routes/library-router.js";
 import notebookRouter from "./routes/notebook-router.js"
 
 // remaining middleware imports
-import morgan from "morgan";
-//import cookieParser from "cookie-parser";
 import errorHandler from "./middleware/error-handler.js";
 import notFound from "./middleware/not-found.js";
 //import { authenticateUser, authorizePermissions } from "./middleware/authentication.js";
@@ -33,7 +31,7 @@ app.use(bodyParser.json({ limit: '10mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '10mb' }));
 app.use(bodyParserErrorHandler());
 app.use(express.json())
-
+app.use(cookieParser(process.env.JWT_SECRET));
 
 if (process.env.NODE_ENV !== "production") {
   app.use(morgan("dev"));

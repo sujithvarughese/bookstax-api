@@ -1,9 +1,11 @@
 import axios from 'axios'
 import dotenv from 'dotenv'
+import { attachCookies } from '../utils/index.js'
 dotenv.config()
 
 const authenticateUser = async (req, res) => {
 	const { email, password, mode } = req.body
+	console.log(req.body)
 	try {
 		const response = await axios.post(
 			`https://identitytoolkit.googleapis.com/v1/accounts:${mode}?key=${process.env.FB_API_KEY}`,
@@ -11,6 +13,7 @@ const authenticateUser = async (req, res) => {
 		)
 		const { kind, idToken, refreshToken, expiresIn, localId } = response.data
 		console.log(response.data)
+		attachCookies({ res, token: idToken })
 		res.status(200).json({ token: idToken })
 
 	} catch (error) {
@@ -21,16 +24,14 @@ const authenticateUser = async (req, res) => {
 const authenticateAsGuest = async (req, res) => {
 	const email = process.env.GUEST_EMAIL
 	const password = process.env.GUEST_PASSWORD
-	console.log(password)
 	try {
 		const response = await axios.post(
 			`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${process.env.FB_API_KEY}`,
 			{ email, password, returnSecureToken: true }
 		)
-		const { kind, idToken, refreshToken, expiresIn, localId } = response.data
-		console.log(response.data)
-		console.log(idToken)
-		res.status(200).json({ token: idToken })
+		const { kind, localId, idToken, refreshToken, expiresIn } = response.data
+		attachCookies({ res, token: idToken })
+		res.status(200).json({ token: idToken, email: email, userId: localId })
 	} catch (error) {
 		throw new Error(error)
 	}

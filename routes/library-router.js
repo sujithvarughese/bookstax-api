@@ -6,14 +6,15 @@ import {
 	addBookToLibrary,
 	getBookDetails,
 	updateBookDetails,
-	removeBookFromLibrary
+	removeBookFromLibrary,
+	getCurrentlyReading
 } from "../controllers/library-controller.js";
 
 router.route("/")
-      .get(getLibrary)
       .post(addBookToLibrary);
 
-
+router.route("/user/currently/:id").get(getCurrentlyReading)
+router.route("/user/:id").get(getLibrary)
 router.route("/:id")
       .get(getBookDetails)
       .patch(updateBookDetails)

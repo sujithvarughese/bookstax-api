@@ -1,34 +1,36 @@
 import mongoose from "mongoose";
 
 const BookSchema = new mongoose.Schema({
-	user: {
-		type: mongoose.Types.ObjectId,
-		ref: "User"
-	},
-	description: {
+	userId: {
 		type: String
 	},
-	yearPublished: {
+	bookId: {
 		type: String
 	},
-	infoURL: {
+	isbn: {
 		type: String
 	},
-	previewAvailable: {
+	title: {
 		type: String
 	},
-	previewURL: {
+	author: {
+		type: String
+	},
+	image: {
 		type: String
 	},
 	status: {
 		type: String,
-		enum: ["read", "unread", "reading"],
-		default: "unread"
+		enum: ["Completed", "Unread", "Reading"],
+		default: "Unread"
 	},
-	rating: {
+	myRating: {
 		type: Number,
 		min: 0,
 		max: 5
+	},
+	favorite: {
+		type: Boolean
 	},
 	createdAt: {
 		type: Date,
