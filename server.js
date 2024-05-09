@@ -9,9 +9,10 @@ import morgan from "morgan";
 import cookieParser from "cookie-parser";
 // router imports
 import authRouter from "./routes/auth-router.js"
-import discoverRouter from './routes/discover-router.js'
 import libraryRouter from "./routes/library-router.js";
 import notebookRouter from "./routes/notebook-router.js"
+import bookhubRouter from './routes/bookhub-router.js'
+import nytRouter from './routes/nyt-router.js'
 
 // remaining middleware imports
 import errorHandler from "./middleware/error-handler.js";
@@ -48,8 +49,9 @@ app.get("/api/v1", (req, res) => {
 })
 
 app.use("/api/v1/auth", authRouter);
-app.use("/api/v1/discover", discoverRouter)
-app.use("/api/v1/library", libraryRouter) // library functions - getLibrary, add/update/removeBook
+app.use("/api/v1/nyt", nytRouter)
+app.use("/api/v1/bookhub", bookhubRouter)
+app.use("/api/v1/library", libraryRouter) // mongodb library functions, add/update/removeBook
 app.use("/api/v1/notebook", notebookRouter) // notebook functions - getNotebook, add/update note
 app.use(notFound);
 app.use(errorHandler);
