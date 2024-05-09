@@ -16,18 +16,24 @@ const getCurrentlyReading = async (req, res) => {
 
 // POST add single book from req.body object
 const addBookToLibrary = async (req, res) => {
-	const { title, author, image, id, userId } = req.body
+	const { title, author, image, bookId, userId } = req.body
 	// check if book is already in library, if so send error is response
 	const duplicate = await Book.findOne({ userId: req.body.userId, title: req.body.title })
 	if (duplicate) {
 		throw new BadRequestError("Book already in Library!");
 	}
 	// create new mongo document for new book
-	await Book.create({ title, author, image, bookId: id, userId });
-
-	res.status(StatusCodes.CREATED).json({
-		msg: `${req.body.title} added to library`,
+	const book = await Book.create({
+		title,
+		author,
+		image,
+		bookId,
+		userId,
+		favorite: false,
+		status: "Unread",
+		myRating: 0
 	});
+	res.status(StatusCodes.CREATED).json(book);
 }
 
 // PATCH book details from req.body

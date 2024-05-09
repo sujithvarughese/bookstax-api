@@ -30,13 +30,11 @@ const getBestSellersGenres = async (req, res) => {
   const response = await axios(`https://api.nytimes.com/svc/books/v3/lists/names.json?api-key=${process.env.NYT_API_KEY}`)
   const { results } = response.data
   const genreList = results.map(result => result.list_name)
-  console.log(genreList)
   res.status(StatusCodes.OK).json(genreList);
 }
 const getBestSellersByGenre = async (req, res) => {
-  const response = await axios(`https://api.nytimes.com/svc/books/v3/lists/current/${req.query.id}.json?api-key=${process.env.NYT_API_KEY}`)
+  const response = await axios(`https://api.nytimes.com/svc/books/v3/lists/current/${req.params.id}.json?api-key=${process.env.NYT_API_KEY}`)
   const { results } = response.data
-  console.log(req.query)
   const books = results.books.map(book => {
     return {
       bookId: book.primary_isbn10 || book.primary_isbn13,
@@ -46,7 +44,6 @@ const getBestSellersByGenre = async (req, res) => {
       buyLinks: book.buy_links
     }
   })
-  console.log(books)
   res.status(StatusCodes.OK).json(books);
 }
 

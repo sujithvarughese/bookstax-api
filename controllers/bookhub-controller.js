@@ -25,12 +25,13 @@ const getBookDetails = async (req, res) => {
         "X-RapidAPI-Host": "book-info-hub.p.rapidapi.com"
       }
     })
-    const data = {
-      ...response.data,
-      pages: response.data.page_format.replace(/[^0-9]/g, ""),
-      year: response.data.publication_info.substring(response.publication_info.length - 4)
+    const { data } = response
+    const results = {
+      ...data,
+      pages: data.page_format.replace(/[^0-9]/g, ""),
+      year: data.publication_info.substring(data.publication_info.length - 4)
     }
-    res.status(StatusCodes.OK).json(data);
+    res.status(StatusCodes.OK).json(results);
   } catch (error) {
     console.log(error.response)
   }
