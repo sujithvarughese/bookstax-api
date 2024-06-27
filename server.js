@@ -24,7 +24,7 @@ const port = process.env.PORT || 8800
 dotenv.config()
 
 app.use(cors({
-  origin: ["https://localhost:5173", "http://localhost:8081"],
+  origin: ["https://localhost:5173", "http://localhost:8081", "http://localhost:19006", "https://bookstax-api-c040fb8f60e5.herokuapp.com"],
   credentials: true,
   methods: ["GET", "POST", "PATCH", "PUT", "DELETE"]
 }));
